@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tasks Dashboard - TaskFlow Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#38485d",
+                        "tertiary-fixed": "#ffdbcd",
+                        "inverse-surface": "#2e3039",
+                        "on-background": "#191b23",
+                        "status-todo-bg": "#F1F5F9",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary-fixed": "#d3e4fe",
+                        "priority-low-bg": "#F0FDF4",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "status-doing-text": "#4338CA",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary-container": "#bc4800",
+                        "tertiary": "#943700",
+                        "surface-container-high": "#e7e7f3",
+                        "surface-container": "#ededf9",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-container-low": "#f3f3fe",
+                        "surface-dim": "#d9d9e5",
+                        "primary-container": "#2563eb",
+                        "inverse-primary": "#b4c5ff",
+                        "priority-high-text": "#991B1B",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-variant": "#e1e2ed",
+                        "status-doing-bg": "#EEF2FF",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-secondary-container": "#54647a",
+                        "outline-variant": "#c3c6d7",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#434655",
+                        "priority-high-bg": "#FEF2F2",
+                        "background": "#faf8ff",
+                        "status-done-text": "#15803D",
+                        "priority-medium-bg": "#EFF6FF",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "status-todo-text": "#475569",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e2ed",
+                        "priority-low-text": "#166534",
+                        "surface": "#faf8ff",
+                        "warning-amber": "#D97706",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-tint": "#0053db",
+                        "surface-bright": "#faf8ff",
+                        "secondary-container": "#d0e1fb",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary": "#ffffff",
+                        "status-done-bg": "#DCFCE7",
+                        "priority-medium-text": "#1E40AF",
+                        "on-surface": "#191b23",
+                        "secondary": "#505f76",
+                        "on-primary-container": "#eeefff",
+                        "outline": "#737686",
+                        "primary": "#004ac6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-margin": "24px",
+                        "header-height": "64px",
+                        "sidebar-width": "260px",
+                        "gutter": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline fixed left-0 top-0 h-full w-[260px] z-20">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold">TF</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">TaskFlow Admin</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Productivity Tool</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl font-bold hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 Active: scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                Tasks
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                Calendar
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto">
+<button class="w-full bg-primary hover:bg-primary/90 text-on-primary py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined">add</span>
+                New Task
+            </button>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-[260px] h-screen overflow-hidden bg-background">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-6 w-full bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline z-10">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-body-sm text-body-sm" placeholder="Search everywhere..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant border border-outline flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate administrator in a bright, modern office setting. The lighting is soft and neutral, conveying reliability. Light mode aesthetic with clean whites and soft blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcLsbgCxzgZ1ClDfXgEqqg78QgxuquiMqZNBcI1cr0BgsIs3DhjswpyCkjX0AAekUscVgo2QW0USXFpa0T3sGjNuSQ9DGZknGv9gpqKmKGQRt3foJ8Gm5aEtjjvHQY2D0Y1ZhC2C7h433CO0R8_g9e9QPjrtgu18kXR8dYfFZxGovB8piR8uWAhnyTqz7b1EWY3yiy_CwPsd3aJkC2RzAC43zKRHuVqDaF_x2GKl1hMIQFraqQY-FeNw"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8">
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Tasks</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and track your team's progress</p>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-4 py-2 rounded-lg font-bold flex items-center gap-2 transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Add Task
+                </button>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Total Tasks</span>
+<span class="font-headline-md text-headline-md text-on-surface">12</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-todo-text"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Todo</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">5</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-doing-text"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Doing</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">3</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-done-text"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Done</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface">4</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-priority-high-text"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">High Priority</span>
+</div>
+<span class="font-headline-md text-headline-md text-priority-high-text">2</span>
+</div>
+</div>
+<!-- Toolbar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 mb-6 flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+<div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto flex-1">
+<div class="relative w-full sm:max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-9 pr-3 py-1.5 bg-surface border border-outline-variant rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-body-sm text-body-sm" placeholder="Search tasks..." type="text"/>
+</div>
+<div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+<select class="bg-surface border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Status: All</option>
+<option>Todo</option>
+<option>Doing</option>
+<option>Done</option>
+</select>
+<select class="bg-surface border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Priority: All</option>
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+<select class="bg-surface border border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Sort: Created Date</option>
+<option>Due Date</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-surface-container border border-outline-variant rounded-md p-1 self-end lg:self-auto">
+<button class="px-3 py-1 bg-surface shadow-sm rounded text-primary font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">view_list</span>
+                        List
+                    </button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-on-surface rounded font-body-sm text-body-sm flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">view_kanban</span>
+                        Kanban
+                    </button>
+</div>
+</div>
+<!-- Task Table (List View) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-low">
+<th class="py-3 px-4 font-headline-sm text-headline-sm text-on-surface">Title</th>
+<th class="py-3 px-4 font-headline-sm text-headline-sm text-on-surface w-32">Status</th>
+<th class="py-3 px-4 font-headline-sm text-headline-sm text-on-surface w-32">Priority</th>
+<th class="py-3 px-4 font-headline-sm text-headline-sm text-on-surface w-40">Due Date</th>
+<th class="py-3 px-4 font-headline-sm text-headline-sm text-on-surface w-24 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 group">
+<td class="py-3 px-4">
+<div class="font-medium text-on-surface">Update Q3 Marketing Deck</div>
+<div class="text-on-surface-variant text-body-sm truncate max-w-md">Incorporate new user acquisition metrics and update competitor analysis slides.</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-status-doing-bg text-status-doing-text">Doing</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-priority-high-bg text-priority-high-text">High</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Oct 15, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 group">
+<td class="py-3 px-4">
+<div class="font-medium text-on-surface">Review Q4 Budget Proposals</div>
+<div class="text-on-surface-variant text-body-sm truncate max-w-md">Gather initial drafts from department heads and schedule review meeting.</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-status-todo-bg text-status-todo-text">Todo</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-priority-medium-bg text-priority-medium-text">Medium</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Oct 20, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 group">
+<td class="py-3 px-4">
+<div class="font-medium text-on-surface">Finalize Server Migration</div>
+<div class="text-on-surface-variant text-body-sm truncate max-w-md">Complete data transfer to AWS and verify DNS propagation.</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-status-done-bg text-status-done-text">Done</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-priority-high-bg text-priority-high-text">High</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Oct 10, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 group">
+<td class="py-3 px-4">
+<div class="font-medium text-on-surface">Weekly Team Standup Prep</div>
+<div class="text-on-surface-variant text-body-sm truncate max-w-md">Compile weekly wins and blockers for Monday morning meeting.</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-status-todo-bg text-status-todo-text">Todo</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-caps text-label-caps bg-priority-low-bg text-priority-low-text">Low</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Oct 16, 2023</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="border-t border-outline-variant bg-surface px-4 py-3 flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Showing 1 to 4 of 12 entries</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-container disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+<button class="w-8 h-8 rounded bg-primary text-on-primary font-body-sm flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container font-body-sm flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container font-body-sm flex items-center justify-center transition-colors">3</button>
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

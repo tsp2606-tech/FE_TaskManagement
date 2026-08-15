@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow Admin - Tasks Dashboard Empty States</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "priority-low-text": "#166534",
+                      "surface-container-high": "#e7e7f3",
+                      "priority-high-text": "#991B1B",
+                      "on-background": "#191b23",
+                      "priority-medium-text": "#1E40AF",
+                      "surface-dim": "#d9d9e5",
+                      "surface-tint": "#0053db",
+                      "priority-medium-bg": "#EFF6FF",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "inverse-primary": "#b4c5ff",
+                      "surface-variant": "#e1e2ed",
+                      "surface-bright": "#faf8ff",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#e1e2ed",
+                      "priority-low-bg": "#F0FDF4",
+                      "on-error": "#ffffff",
+                      "primary": "#004ac6",
+                      "inverse-on-surface": "#f0f0fb",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "outline-variant": "#c3c6d7",
+                      "tertiary-fixed": "#ffdbcd",
+                      "status-doing-text": "#4338CA",
+                      "status-done-text": "#15803D",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-low": "#f3f3fe",
+                      "status-done-bg": "#DCFCE7",
+                      "on-surface-variant": "#434655",
+                      "surface": "#faf8ff",
+                      "on-secondary-container": "#54647a",
+                      "status-todo-text": "#475569",
+                      "warning-amber": "#D97706",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "secondary-fixed": "#d3e4fe",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "on-primary-fixed": "#00174b",
+                      "outline": "#737686",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#2563eb",
+                      "inverse-surface": "#2e3039",
+                      "on-primary-container": "#eeefff",
+                      "priority-high-bg": "#FEF2F2",
+                      "surface-container": "#ededf9",
+                      "status-doing-bg": "#EEF2FF",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "error": "#ba1a1a",
+                      "tertiary": "#943700",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#191b23",
+                      "status-todo-bg": "#F1F5F9",
+                      "on-tertiary-fixed": "#360f00",
+                      "secondary": "#505f76",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-tertiary-container": "#ffede6",
+                      "tertiary-container": "#bc4800",
+                      "primary-fixed": "#dbe1ff",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "background": "#faf8ff",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#d0e1fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-margin": "24px",
+                      "gutter": "16px",
+                      "base": "4px",
+                      "header-height": "64px",
+                      "sidebar-width": "260px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden">
+<!-- App Container -->
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline fixed left-0 top-0 w-[260px] z-20">
+<!-- Header/Logo -->
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">TaskFlow Admin</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Productivity Tool</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-on-primary font-body-md text-body-md font-medium py-3 px-4 rounded-lg hover:bg-on-primary-fixed-variant transition-colors duration-200 mb-6 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Task
+            </button>
+<!-- Navigation Links -->
+<div class="flex-1 flex flex-col gap-1">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Tasks (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl font-bold hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200" href="#" style="transform: scale(0.98);">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span>Tasks</span>
+</a>
+<!-- Calendar (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span>Calendar</span>
+</a>
+<!-- Settings (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex flex-col flex-1 ml-0 md:ml-[260px] w-full h-full">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-6 w-full bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline z-10 sticky top-0 shrink-0">
+<!-- Mobile Menu & Title (Hidden on Desktop) -->
+<div class="flex items-center gap-4 md:hidden">
+<button class="text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">TaskFlow Admin</span>
+</div>
+<!-- Desktop Title / Breadcrumb (Visible on Desktop) -->
+<div class="hidden md:flex items-center gap-2 text-on-surface-variant">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">Tasks</span>
+</div>
+<!-- Search -->
+<div class="hidden md:flex flex-1 max-w-md mx-6 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search tasks..." type="text"/>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-2 md:gap-4 shrink-0">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full hidden md:block">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-full hidden md:block">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<!-- Profile Avatar -->
+<div class="ml-2 pl-4 border-l border-outline-variant hidden sm:block">
+<button class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant hover:opacity-80 transition-opacity">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A small circular avatar showing a smiling professional user in a well-lit modern office setting. The style is a high-quality, realistic corporate headshot. Warm lighting emphasizes trust and competence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRigRfnRisOskW3PTYbKoGJP4t2mqVuFB1-JjEMFaJwkZfbziO6Yzrv7rHoPadbcWmo831FGZ35wn8yIhVoMKOEYBveTejZIlZG4LUP3SW0qR2D7VDKLXWoEC2CGCwxt4SHAvtWQAFVUkEzazEZvvsj5sq_S4oodwYBzlmI6KVmEW-SuwktrS-qQC-DYZbCBxwK_NVvjtWK7YE7t11dz2FeCsdEYP4HwyPyS1AKSP4NmEUSFuM_6GZ1g"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Dashboard Content Scrollable Area -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8 bg-surface-container-lowest">
+<div class="max-w-6xl mx-auto flex flex-col gap-8">
+<!-- Header Section for Context -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-1">Task Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage and track your ongoing projects.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors text-body-md font-medium">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                Filter
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg hover:bg-on-primary-fixed-variant transition-colors text-body-md font-medium">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Add Task
+                            </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Empty State 1: Entirely Empty (Onboarding) -->
+<div class="flex flex-col items-center justify-center p-12 bg-surface-container-lowest border border-outline-variant rounded-2xl min-h-[400px]">
+<!-- Icon Container with subtle background -->
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6 border border-surface-variant">
+<span class="material-symbols-outlined text-[40px] text-outline" style="font-variation-settings: 'wght' 200;">content_paste</span>
+</div>
+<!-- Text Content -->
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-center">No tasks yet</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-[280px] mb-8">
+                                Create your first task to start tracking progress.
+                            </p>
+<!-- Primary Action -->
+<button class="bg-primary text-on-primary font-body-md text-body-md font-medium py-2.5 px-6 rounded-lg hover:bg-on-primary-fixed-variant transition-colors duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Add Task
+                            </button>
+</div>
+<!-- Empty State 2: Filter Empty (No Results) -->
+<div class="flex flex-col items-center justify-center p-12 bg-surface border border-outline-variant border-dashed rounded-2xl min-h-[400px]">
+<!-- Icon Container -->
+<div class="w-16 h-16 bg-surface-container-low rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[32px] text-secondary" style="font-variation-settings: 'wght' 300;">search_off</span>
+</div>
+<!-- Text Content -->
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-center">No tasks match your filters</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-[300px] mb-8">
+                                Try changing the status, priority, or search keyword.
+                            </p>
+<!-- Secondary Action -->
+<button class="bg-surface-container-lowest text-on-surface font-body-md text-body-md font-medium py-2.5 px-6 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors duration-200">
+                                Clear Filters
+                            </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

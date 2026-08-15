@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background antialiased" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow Admin - Error &amp; Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "priority-low-text": "#166534",
+                    "surface-container-high": "#e7e7f3",
+                    "priority-high-text": "#991B1B",
+                    "on-background": "#191b23",
+                    "priority-medium-text": "#1E40AF",
+                    "surface-dim": "#d9d9e5",
+                    "surface-tint": "#0053db",
+                    "priority-medium-bg": "#EFF6FF",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-variant": "#e1e2ed",
+                    "surface-bright": "#faf8ff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e1e2ed",
+                    "priority-low-bg": "#F0FDF4",
+                    "on-error": "#ffffff",
+                    "primary": "#004ac6",
+                    "inverse-on-surface": "#f0f0fb",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "outline-variant": "#c3c6d7",
+                    "tertiary-fixed": "#ffdbcd",
+                    "status-doing-text": "#4338CA",
+                    "status-done-text": "#15803D",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f3f3fe",
+                    "status-done-bg": "#DCFCE7",
+                    "on-surface-variant": "#434655",
+                    "surface": "#faf8ff",
+                    "on-secondary-container": "#54647a",
+                    "status-todo-text": "#475569",
+                    "warning-amber": "#D97706",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "secondary-fixed": "#d3e4fe",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-primary-fixed": "#00174b",
+                    "outline": "#737686",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#2563eb",
+                    "inverse-surface": "#2e3039",
+                    "on-primary-container": "#eeefff",
+                    "priority-high-bg": "#FEF2F2",
+                    "surface-container": "#ededf9",
+                    "status-doing-bg": "#EEF2FF",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "error": "#ba1a1a",
+                    "tertiary": "#943700",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#191b23",
+                    "status-todo-bg": "#F1F5F9",
+                    "on-tertiary-fixed": "#360f00",
+                    "secondary": "#505f76",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-tertiary-container": "#ffede6",
+                    "tertiary-container": "#bc4800",
+                    "primary-fixed": "#dbe1ff",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "background": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#d0e1fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "base": "4px",
+                    "header-height": "64px",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter", "sans-serif"],
+                    "label-caps": ["Inter", "sans-serif"],
+                    "headline-lg-mobile": ["Hanken Grotesk", "sans-serif"],
+                    "body-sm": ["Inter", "sans-serif"],
+                    "headline-sm": ["Hanken Grotesk", "sans-serif"],
+                    "headline-md": ["Hanken Grotesk", "sans-serif"],
+                    "label-mono": ["JetBrains Mono", "monospace"],
+                    "headline-lg": ["Hanken Grotesk", "sans-serif"],
+                    "body-lg": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-mono": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Tooltip */
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-surface bg-background flex overflow-hidden h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline hidden md:flex flex-col h-screen p-4 z-20">
+<div class="flex items-center gap-3 mb-8 px-4">
+<img class="w-8 h-8 rounded-lg object-cover" data-alt="A minimalist logo icon featuring a stylized checkmark or flow symbol, using deep corporate blue against a crisp white background. Professional, modern app aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpHBbU7C6vRflM4BV9QnT_oLrt7GlFArsKQfJD0xazEHCuw-xjJzjA9YAm8sBTPJRhK3hH9979k-W9xAW61bBTfhbu4D_0m9WlFIgvedYlfKovh2rtzvL3X-sqONvDBN0Y_bB_44RbXWt0GaARXx_3Fk_CoPjmscUpdMGLxu_whKI8fbomZQXUlOyvPvUAaeFUd4F-ZkiYCaHykUdHWB3xLNkIIsVYJDrUWbZyZOgBKNUg6onhqwXBHw"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">TaskFlow Admin</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Productivity Tool</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary rounded-xl py-3 px-4 font-headline-sm text-headline-sm mb-6 hover:bg-primary-container transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+            New Task
+        </button>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl font-bold hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill" data-icon="assignment">assignment</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span>Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-secondary-fixed-variant transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col ml-0 md:ml-[260px] h-screen overflow-hidden relative">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-6 bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline shrink-0 z-10 w-full">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative hidden sm:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" placeholder="Search tasks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<div class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden ml-2 cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a person looking forward confidently, set against a neutral gray background. Suitable for a corporate or admin dashboard profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHVUu3EXgwaJjbye8tjjkjl6luUQSvof_CEYIZ6yzHPXsKV8yt0pHSQiOu-9LTjupaqAFHYwcPsgjNjS7X75WuPSsY2QY8L89J_plmhfahwBZeYrzdrnkk5EH56lN6oinAEOnerbIONcemANXX1CpCoiO2JkXv8GvMVLYT99vgRpBh0PDH50IuV7U1wFSM1S26VoVn15t0LE5BejX3sslfy_lSAQ25QbwOfhE_df0S7fVVOLBagdxJrA"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 overflow-y-auto p-4 sm:p-container-margin bg-surface-container-lowest">
+<div class="max-w-6xl mx-auto space-y-6">
+<!-- Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">All Tasks</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and track your project tasks.</p>
+</div>
+</div>
+<!-- Global Error Banner -->
+<div class="bg-error-container border border-error/20 rounded-xl p-4 flex items-start gap-4 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<span class="material-symbols-outlined text-error mt-0.5" style="font-variation-settings: 'FILL' 1;">error</span>
+<div class="flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-error-container">Data Sync Failed</h3>
+<p class="font-body-sm text-body-sm text-on-error-container/80 mt-1">Unable to load tasks. Check your connection or try again. The list below may be out of date.</p>
+</div>
+<button class="bg-surface-container-lowest text-error font-body-sm text-body-sm font-semibold px-4 py-2 rounded-lg border border-error/20 hover:bg-error/5 transition-colors shrink-0">
+                        Retry
+                    </button>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<!-- Table Actions Bar -->
+<div class="p-4 border-b border-outline-variant bg-surface flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm text-on-surface">Task Directory</span>
+<span class="bg-surface-container-highest text-on-surface-variant font-label-mono text-label-mono px-2 py-0.5 rounded-full">42 Total</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-low font-label-caps text-label-caps text-on-surface-variant">
+<th class="p-3 w-10 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/></th>
+<th class="p-3">Task ID</th>
+<th class="p-3 w-1/3">Title</th>
+<th class="p-3">Status</th>
+<th class="p-3">Priority</th>
+<th class="p-3">Due Date</th>
+<th class="p-3 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface divide-y divide-outline-variant">
+<!-- Row 1: Todo -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="p-3 font-label-mono text-label-mono text-on-surface-variant">TSK-1042</td>
+<td class="p-3 font-semibold text-on-surface">Update Authentication Flow</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-status-todo-bg text-status-todo-text font-medium text-[12px]">Todo</span>
+</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-priority-high-bg text-priority-high-text font-medium text-[12px]">High</span>
+</td>
+<td class="p-3 text-on-surface-variant">Oct 24</td>
+<td class="p-3">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button aria-label="View" class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-inverse-surface text-inverse-on-surface text-[11px] rounded whitespace-nowrap z-10">View details</span>
+</button>
+<button aria-label="Edit" class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span class="tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-inverse-surface text-inverse-on-surface text-[11px] rounded whitespace-nowrap z-10">Edit task</span>
+</button>
+<button aria-label="Delete" class="p-1.5 text-on-surface-variant hover:bg-surface-variant hover:text-error rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span class="tooltip-text absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-inverse-surface text-inverse-on-surface text-[11px] rounded whitespace-nowrap z-10">Delete</span>
+</button>
+<div class="w-px h-4 bg-outline-variant mx-1"></div>
+<button aria-label="Move Next" class="p-1.5 text-primary hover:bg-primary-container/20 rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+<span class="tooltip-text absolute bottom-full right-0 mb-1 px-2 py-1 bg-inverse-surface text-inverse-on-surface text-[11px] rounded whitespace-nowrap z-10">Move to Doing</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Doing -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="p-3 font-label-mono text-label-mono text-on-surface-variant">TSK-1041</td>
+<td class="p-3 font-semibold text-on-surface">Design Database Schema</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-status-doing-bg text-status-doing-text font-medium text-[12px]">Doing</span>
+</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-priority-medium-bg text-priority-medium-text font-medium text-[12px]">Medium</span>
+</td>
+<td class="p-3 text-on-surface-variant">Oct 25</td>
+<td class="p-3">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant hover:text-error rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+<div class="w-px h-4 bg-outline-variant mx-1"></div>
+<button class="p-1.5 text-primary hover:bg-primary-container/20 rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+<span class="tooltip-text absolute bottom-full right-0 mb-1 px-2 py-1 bg-inverse-surface text-inverse-on-surface text-[11px] rounded whitespace-nowrap z-10">Move to Done</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Done -->
+<tr class="hover:bg-surface-container-low transition-colors group bg-surface-bright opacity-80">
+<td class="p-3 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="p-3 font-label-mono text-label-mono text-on-surface-variant line-through">TSK-1038</td>
+<td class="p-3 font-semibold text-on-surface line-through text-on-surface-variant">Setup CI/CD Pipeline</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-status-done-bg text-status-done-text font-medium text-[12px]">Done</span>
+</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-priority-low-bg text-priority-low-text font-medium text-[12px]">Low</span>
+</td>
+<td class="p-3 text-on-surface-variant">Oct 20</td>
+<td class="p-3">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant hover:text-error rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+<div class="w-px h-4 bg-outline-variant mx-1"></div>
+<button class="p-1.5 text-outline-variant cursor-not-allowed tooltip relative" disabled="">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+<span class="tooltip-text absolute bottom-full right-0 mb-1 px-2 py-1 bg-inverse-surface text-inverse-on-surface text-[11px] rounded whitespace-nowrap z-10">Already done</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Error State Trigger Simulation -->
+<tr class="hover:bg-surface-container-low transition-colors group border-l-2 border-l-error bg-error-container/10">
+<td class="p-3 text-center"><input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/></td>
+<td class="p-3 font-label-mono text-label-mono text-on-surface-variant">TSK-1045</td>
+<td class="p-3 font-semibold text-on-surface">Migrate Legacy Data</td>
+<td class="p-3">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-status-todo-bg text-status-todo-text font-medium text-[12px]">
+                                            Todo
+                                            <span class="material-symbols-outlined text-[14px] text-error">warning</span>
+</span>
+</td>
+<td class="p-3">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-priority-high-bg text-priority-high-text font-medium text-[12px]">High</span>
+</td>
+<td class="p-3 text-on-surface-variant">Oct 26</td>
+<td class="p-3">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant hover:text-error rounded-md tooltip relative">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+<div class="w-px h-4 bg-outline-variant mx-1"></div>
+<button class="p-1.5 text-error hover:bg-error-container rounded-md tooltip relative border border-error/30">
+<span class="material-symbols-outlined text-[18px]">sync_problem</span>
+<span class="tooltip-text absolute bottom-full right-0 mb-1 px-2 py-1 bg-error text-on-error text-[11px] rounded whitespace-nowrap z-10 font-medium">Retry transition</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-outline-variant bg-surface flex flex-col sm:flex-row justify-between items-center gap-4 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span>Rows per page:</span>
+<select class="border border-outline-variant rounded-md bg-transparent py-1 pl-2 pr-8 text-on-surface focus:ring-primary focus:border-primary">
+<option>5</option>
+<option selected="">10</option>
+<option>20</option>
+<option>50</option>
+</select>
+</div>
+<div class="flex items-center gap-6">
+<span>Showing 1-10 of 42 tasks</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface-container-low disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<div class="flex gap-1">
+<button class="w-7 h-7 rounded bg-primary-container text-on-primary-container font-semibold">1</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low">2</button>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low">3</button>
+<span class="w-7 h-7 flex items-center justify-center">...</span>
+<button class="w-7 h-7 rounded hover:bg-surface-container-low">5</button>
+</div>
+<button class="p-1 rounded hover:bg-surface-container-low">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Toast Notifications Layer (Bottom Right) -->
+<div class="fixed bottom-6 right-6 flex flex-col gap-3 z-50 pointer-events-none">
+<!-- Success Toast -->
+<div class="bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 w-80 pointer-events-auto border-l-4 border-status-done-text transform transition-transform">
+<span class="material-symbols-outlined text-status-done-text" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div class="flex-1">
+<p class="font-body-sm text-body-sm font-medium">Task updated successfully.</p>
+</div>
+<button class="text-inverse-on-surface/70 hover:text-inverse-on-surface">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Error Toast -->
+<div class="bg-error-container text-on-error-container px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 w-80 pointer-events-auto border-l-4 border-error transform transition-transform">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">error</span>
+<div class="flex-1">
+<p class="font-body-sm text-body-sm font-medium">Invalid status transition.</p>
+</div>
+<button class="text-on-error-container/70 hover:text-on-error-container">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Contextual Detail Modal with Error (Hidden by default, shown for mockup purposes as absolute centered) -->
+<!-- In a real app this would be conditionally rendered, but included here to meet prompt requirements -->
+<div class="fixed inset-0 bg-on-background/50 backdrop-blur-sm z-40 hidden" id="detailModal">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-surface rounded-xl shadow-2xl flex flex-col">
+<div class="flex justify-between items-center p-4 border-b border-outline-variant">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Task Details</h3>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-1 rounded-md" onclick="document.getElementById('detailModal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 flex-1 overflow-y-auto">
+<div class="mb-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant block mb-1">TSK-1045</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Migrate Legacy Data</h4>
+</div>
+<!-- Inline Modal Error Alert -->
+<div class="bg-error-container/30 border border-error/40 rounded-lg p-3 mb-6 flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-0.5">warning</span>
+<div>
+<p class="font-body-sm text-body-sm font-semibold text-on-error-container">Invalid Status Transition</p>
+<p class="font-body-sm text-body-sm text-on-error-container/80 mt-1">A task cannot be moved directly from "Todo" to "Done". It must pass through "Doing" first.</p>
+</div>
+</div>
+<div class="space-y-4 font-body-sm text-body-sm">
+<div class="flex">
+<span class="w-24 text-on-surface-variant">Current Status:</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded bg-status-todo-bg text-status-todo-text font-medium">Todo</span>
+</div>
+<div class="flex">
+<span class="w-24 text-on-surface-variant">Priority:</span>
+<span class="text-priority-high-text font-medium">High</span>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface-container-low flex justify-end gap-3 rounded-b-xl">
+<button class="px-4 py-2 bg-surface text-on-surface border border-outline-variant rounded-lg font-body-sm text-body-sm font-medium hover:bg-surface-container-highest transition-colors" onclick="document.getElementById('detailModal').classList.add('hidden')">Cancel</button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg font-body-sm text-body-sm font-medium opacity-50 cursor-not-allowed">Save Changes</button>
+</div>
+</div>
+</div>
+<!-- Script to briefly show modal for demonstration if needed, or wire up toast dismissal -->
+<script>
+        // Simple script to dismiss toasts
+        document.querySelectorAll('.fixed.bottom-6 button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const toast = e.currentTarget.closest('div.bg-inverse-surface, div.bg-error-container');
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            });
+        });
+        
+        // Uncomment to show modal on load for demo
+        // document.getElementById('detailModal').classList.remove('hidden');
+    </script>
+</body></html>

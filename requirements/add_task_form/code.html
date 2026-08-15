@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background text-on-background antialiased" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow Admin - Add New Task</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#38485d",
+                        "tertiary-fixed": "#ffdbcd",
+                        "inverse-surface": "#2e3039",
+                        "on-background": "#191b23",
+                        "status-todo-bg": "#F1F5F9",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary-fixed": "#d3e4fe",
+                        "priority-low-bg": "#F0FDF4",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "status-doing-text": "#4338CA",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary-container": "#bc4800",
+                        "tertiary": "#943700",
+                        "surface-container-high": "#e7e7f3",
+                        "surface-container": "#ededf9",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-container-low": "#f3f3fe",
+                        "surface-dim": "#d9d9e5",
+                        "primary-container": "#2563eb",
+                        "inverse-primary": "#b4c5ff",
+                        "priority-high-text": "#991B1B",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-variant": "#e1e2ed",
+                        "status-doing-bg": "#EEF2FF",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-secondary-container": "#54647a",
+                        "outline-variant": "#c3c6d7",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#434655",
+                        "priority-high-bg": "#FEF2F2",
+                        "background": "#faf8ff",
+                        "status-done-text": "#15803D",
+                        "priority-medium-bg": "#EFF6FF",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "status-todo-text": "#475569",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e1e2ed",
+                        "priority-low-text": "#166534",
+                        "surface": "#faf8ff",
+                        "warning-amber": "#D97706",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-tint": "#0053db",
+                        "surface-bright": "#faf8ff",
+                        "secondary-container": "#d0e1fb",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#00174b",
+                        "on-tertiary": "#ffffff",
+                        "status-done-bg": "#DCFCE7",
+                        "priority-medium-text": "#1E40AF",
+                        "on-surface": "#191b23",
+                        "secondary": "#505f76",
+                        "on-primary-container": "#eeefff",
+                        "outline": "#737686",
+                        "primary": "#004ac6"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "container-margin": "24px",
+                        "header-height": "64px",
+                        "sidebar-width": "260px",
+                        "gutter": "16px",
+                        "base": "4px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Hanken Grotesk", "sans-serif"],
+                        "headline-sm": ["Hanken Grotesk", "sans-serif"],
+                        "label-caps": ["Inter", "sans-serif"],
+                        "headline-md": ["Hanken Grotesk", "sans-serif"],
+                        "headline-lg": ["Hanken Grotesk", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-mono": ["JetBrains Mono", "monospace"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-sm": ["16px", { lineHeight: "24px", fontWeight: "600" }],
+                        "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "headline-lg": ["30px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-mono": ["12px", { lineHeight: "16px", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full flex overflow-hidden">
+<!-- Background Shell (Inactive visually due to modal) -->
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline hidden md:flex flex-col p-4 z-0 filter blur-[2px] opacity-70 pointer-events-none">
+<div class="mb-8 px-2 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container font-headline-sm">TF</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">TaskFlow Admin</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Productivity Tool</p>
+</div>
+</div>
+<button class="mb-6 w-full py-3 px-4 bg-primary text-on-primary rounded-xl font-headline-sm hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+            New Task
+        </button>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-xl font-bold font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant font-body-md text-body-md rounded-xl" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                Tasks
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant font-body-md text-body-md rounded-xl" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                Calendar
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant font-body-md text-body-md rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full ml-0 md:ml-[260px] relative z-0">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-6 w-full bg-surface dark:bg-on-background border-b border-outline-variant dark:border-outline filter blur-[2px] opacity-70 pointer-events-none">
+<div class="flex items-center gap-4">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim md:hidden">TaskFlow Admin</h2>
+<!-- Search (on left) -->
+<div class="hidden md:flex items-center bg-surface-container-low rounded-lg px-3 py-1.5 border border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary w-64">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm text-on-surface w-full ml-2 placeholder-on-surface-variant py-1" placeholder="Search tasks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden ml-2 cursor-pointer">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A small, professional headshot of a person looking forward, neutral lighting, corporate aesthetic, isolated on a light gray background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbkD3aP3y6RODOA6zGnTdakCekCv1kc-OIhyzLu6LejxFNZv6ldjWRPXKKygD3t1fbyER1120GV41esnIjsu4HTIs-RiFDZ5KJ4AJqWOuWNSrEY-XL9jN36E-XvD130uNpa5JWnN1b9zGsKWyFCLQq_yKVQrm72Bl0HNLhqxdWPxWtjal28ulkKNJQ4S5HEnX6s7axraJ7DCRaJ5KwpstaJudHuq3Nf3ptjvFq0kaGZvdVtLTRqKAWhg"/>
+</div>
+</div>
+</header>
+<!-- Dummy Content underneath modal -->
+<div class="flex-1 p-6 filter blur-[2px] opacity-70 pointer-events-none">
+<h2 class="font-headline-lg text-headline-lg mb-6">Dashboard</h2>
+<div class="grid grid-cols-3 gap-4">
+<div class="h-48 bg-surface-container-lowest border border-outline-variant rounded-xl"></div>
+<div class="h-48 bg-surface-container-lowest border border-outline-variant rounded-xl"></div>
+<div class="h-48 bg-surface-container-lowest border border-outline-variant rounded-xl"></div>
+</div>
+</div>
+</main>
+<!-- MODAL OVERLAY -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm bg-on-background/20" role="dialog">
+<!-- Modal Container -->
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-outline-variant flex flex-col overflow-hidden transform transition-all">
+<!-- Modal Header -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant bg-surface">
+<h2 class="font-headline-md text-headline-md text-on-surface">Add New Task</h2>
+<button class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high p-1 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Form) -->
+<div class="p-6 overflow-y-auto">
+<form class="space-y-5">
+<!-- Title -->
+<div>
+<label class="block font-body-sm text-body-sm font-medium text-on-surface mb-1" for="task-title">Task Title <span class="text-error">*</span></label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-shadow" id="task-title" name="task-title" placeholder="e.g., Prepare Q3 Report" required="" type="text"/>
+</div>
+<!-- Description -->
+<div>
+<label class="block font-body-sm text-body-sm font-medium text-on-surface mb-1" for="task-desc">Description</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface placeholder-on-surface-variant focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-shadow resize-none" id="task-desc" name="task-desc" placeholder="Add details or context..." rows="3"></textarea>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<!-- Priority -->
+<div>
+<label class="block font-body-sm text-body-sm font-medium text-on-surface mb-1" for="task-priority">Priority</label>
+<div class="relative">
+<select class="w-full bg-surface border border-outline-variant rounded-lg pl-3 pr-10 py-2 font-body-md text-body-md text-on-surface appearance-none focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-shadow cursor-pointer" id="task-priority" name="task-priority">
+<option value="low">Low</option>
+<option selected="" value="medium">Medium</option>
+<option value="high">High</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Due Date -->
+<div>
+<label class="block font-body-sm text-body-sm font-medium text-on-surface mb-1" for="task-due">Due Date</label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-shadow cursor-text" id="task-due" name="task-due" type="date"/>
+</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Modal Footer (Actions) -->
+<div class="px-6 py-4 border-t border-outline-variant bg-surface flex justify-end gap-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline text-on-surface font-body-md text-body-md font-medium rounded-lg hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 transition-colors" type="button">
+                    Cancel
+                </button>
+<button class="px-4 py-2 bg-primary text-on-primary font-body-md text-body-md font-medium rounded-lg hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 transition-colors shadow-sm" type="button">
+                    Create Task
+                </button>
+</div>
+</div>
+</div>
+</body></html>

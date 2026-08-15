@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow Admin - Delete Task</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "status-done-text": "#15803D",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "status-todo-bg": "#F1F5F9",
+                        "primary-container": "#2563eb",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-container-highest": "#e1e2ed",
+                        "status-todo-text": "#475569",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-on-surface": "#f0f0fb",
+                        "priority-low-text": "#166534",
+                        "secondary-fixed": "#d3e4fe",
+                        "outline-variant": "#c3c6d7",
+                        "on-surface": "#191b23",
+                        "priority-low-bg": "#F0FDF4",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-variant": "#e1e2ed",
+                        "tertiary-fixed": "#ffdbcd",
+                        "priority-medium-text": "#1E40AF",
+                        "background": "#faf8ff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "status-done-bg": "#DCFCE7",
+                        "status-doing-text": "#4338CA",
+                        "on-secondary-container": "#54647a",
+                        "on-primary-fixed": "#00174b",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "priority-high-bg": "#FEF2F2",
+                        "on-surface-variant": "#434655",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#505f76",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191b23",
+                        "surface-bright": "#faf8ff",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#bc4800",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "priority-high-text": "#991B1B",
+                        "surface-container-high": "#e7e7f3",
+                        "surface-tint": "#0053db",
+                        "outline": "#737686",
+                        "status-doing-bg": "#EEF2FF",
+                        "surface-container": "#ededf9",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface": "#faf8ff",
+                        "inverse-primary": "#b4c5ff",
+                        "primary": "#004ac6",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2e3039",
+                        "secondary-container": "#d0e1fb",
+                        "priority-medium-bg": "#EFF6FF",
+                        "surface-container-low": "#f3f3fe",
+                        "error": "#ba1a1a",
+                        "tertiary": "#943700",
+                        "surface-dim": "#d9d9e5",
+                        "warning-amber": "#D97706"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "header-height": "64px",
+                        "base": "4px",
+                        "sidebar-width": "260px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-mono": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface h-screen w-screen overflow-hidden flex items-center justify-center relative">
+<!-- Dimmed Backdrop (Level 3 shadow implies backdrop blur but instructions say centered modal on dimmed backdrop) -->
+<div class="absolute inset-0 bg-on-background/40 backdrop-blur-sm z-40 transition-opacity duration-300"></div>
+<!-- Modal Container (Level 3 Elevation) -->
+<div class="relative z-50 w-full max-w-md bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden border border-outline-variant flex flex-col transform transition-all duration-300 scale-100 opacity-100">
+<!-- Header -->
+<div class="flex items-start justify-between px-6 pt-6 pb-4">
+<div class="flex items-center gap-3 text-error">
+<span class="material-symbols-outlined text-3xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Delete Task</h2>
+</div>
+<button aria-label="Close modal" class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest p-1 rounded-full transition-colors duration-200 group">
+<span class="material-symbols-outlined text-xl group-active:scale-95 transition-transform" data-icon="close">close</span>
+</button>
+</div>
+<!-- Body -->
+<div class="px-6 pb-6">
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                Are you sure you want to delete <strong class="font-medium text-on-surface">"Học Express.js"</strong>? This action cannot be undone.
+            </p>
+</div>
+<!-- Footer / Actions -->
+<div class="flex items-center justify-end gap-3 px-6 py-4 bg-surface-container-low border-t border-outline-variant rounded-b-xl">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md text-body-md font-medium rounded-lg hover:bg-surface-container-highest active:scale-[0.98] transition-all duration-200">
+                Cancel
+            </button>
+<button class="px-4 py-2 bg-error text-on-error font-body-md text-body-md font-medium rounded-lg shadow-sm hover:bg-on-error-container hover:text-error-container active:scale-[0.98] transition-all duration-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+                Delete Task
+            </button>
+</div>
+</div>
+</body></html>
