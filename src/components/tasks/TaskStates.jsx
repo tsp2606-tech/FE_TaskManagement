@@ -30,6 +30,32 @@ export const TaskLoadingState = () => (
   </section>
 );
 
+export const TaskTableLoadingState = () => (
+  <section className="overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest">
+    <div className="border-b border-outline-variant bg-surface-container-low px-4 py-3">
+      <div className="grid grid-cols-12 gap-4">
+        <Shimmer className="col-span-4 h-5" />
+        <Shimmer className="col-span-2 h-5" />
+        <Shimmer className="col-span-2 h-5" />
+        <Shimmer className="col-span-2 h-5" />
+        <Shimmer className="col-span-2 h-5" />
+      </div>
+    </div>
+    {Array.from({ length: 6 }).map((_, index) => (
+      <div className="grid grid-cols-12 gap-4 border-b border-outline-variant p-4" key={index}>
+        <div className="col-span-4 space-y-2">
+          <Shimmer className="h-5 w-3/4" />
+          <Shimmer className="h-4 w-full" />
+        </div>
+        <Shimmer className="col-span-2 h-6" />
+        <Shimmer className="col-span-2 h-6" />
+        <Shimmer className="col-span-2 h-6" />
+        <Shimmer className="col-span-2 h-6" />
+      </div>
+    ))}
+  </section>
+);
+
 export const TaskEmptyState = ({ filtered = false, onAction }) => (
   <section className="flex min-h-[360px] flex-col items-center justify-center rounded-lg border border-dashed border-outline-variant bg-surface-container-lowest p-10 text-center">
     <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-container text-outline">

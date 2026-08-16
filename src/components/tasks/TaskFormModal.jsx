@@ -10,6 +10,14 @@ const toDateInputValue = (date) => {
   return parsedDate.toISOString().slice(0, 10);
 };
 
+const getTodayInputValue = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const TaskFormModal = ({
   error,
   isSubmitting,
@@ -27,6 +35,7 @@ const TaskFormModal = ({
   });
   const [isDueDateFocused, setIsDueDateFocused] = useState(false);
   const [titleError, setTitleError] = useState("");
+  const [dueDateError, setDueDateError] = useState("");
 
   const shouldUseDateInput = isDueDateFocused || Boolean(formData.dueDate);
 
@@ -39,6 +48,19 @@ const TaskFormModal = ({
     if (field === "title" && value.trim()) {
       setTitleError("");
     }
+
+    if (field === "dueDate") {
+      setDueDateError("");
+    }
+  };
+
+  const handleDueDateChange = (value) => {
+    if (value && value < getTodayInputValue()) {
+      setDueDateError("Due date không được là ngày quá khứ.");
+      return;
+    }
+
+    handleChange("dueDate", value);
   };
 
   const handleSubmit = (event) => {
@@ -97,6 +119,12 @@ const TaskFormModal = ({
         {error && (
           <div className="dialog-alert border-b border-error/25 bg-error-container/40 px-6 py-3 text-sm font-medium text-error">
             {error}
+          </div>
+        )}
+
+        {dueDateError && (
+          <div className="dialog-alert border-b border-error/25 bg-error-container/40 px-6 py-3 text-sm font-medium text-error">
+            {dueDateError}
           </div>
         )}
 
@@ -180,7 +208,7 @@ const TaskFormModal = ({
                   id="task-due-date"
                   onBlur={() => setIsDueDateFocused(false)}
                   onChange={(event) =>
-                    handleChange("dueDate", event.target.value)
+                    handleDueDateChange(event.target.value)
                   }
                   onFocus={() => setIsDueDateFocused(true)}
                   placeholder="Today"

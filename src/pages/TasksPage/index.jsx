@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bell,
   ClipboardList,
@@ -18,6 +18,7 @@ import {
   TaskEmptyState,
   TaskErrorBanner,
   TaskLoadingState,
+  TaskTableLoadingState,
   ToastStack,
 } from "../../components/tasks/TaskStates";
 import { getNextStatus } from "../../components/tasks/taskData";
@@ -94,10 +95,12 @@ const TasksPage = () => {
     totalPages: 1,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [isTableLoading, setIsTableLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState("");
   const [actionError, setActionError] = useState("");
   const [toast, setToast] = useState(null);
+  const hasLoadedTasksRef = useRef(false);
 
   const hasFilters = useMemo(
     () => Boolean(filters.search || filters.status || filters.priority),
@@ -109,7 +112,12 @@ const TasksPage = () => {
   };
 
   const fetchTasks = useCallback(async () => {
-    setIsLoading(true);
+    if (hasLoadedTasksRef.current) {
+      setIsTableLoading(true);
+    } else {
+      setIsLoading(true);
+    }
+
     setError("");
 
     try {
@@ -132,7 +140,9 @@ const TasksPage = () => {
     } catch (requestError) {
       setError(requestError.message || "Unable to load tasks.");
     } finally {
+      hasLoadedTasksRef.current = true;
       setIsLoading(false);
+      setIsTableLoading(false);
     }
   }, [filters]);
 
@@ -371,6 +381,8 @@ const TasksPage = () => {
               />
               {error ? (
                 <TaskErrorBanner message={error} onRetry={fetchTasks} />
+              ) : isTableLoading ? (
+                <TaskTableLoadingState />
               ) : tasks.length === 0 ? (
                 <TaskEmptyState
                   filtered={hasFilters}
