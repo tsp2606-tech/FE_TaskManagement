@@ -7,8 +7,8 @@ const TaskDetailModal = ({ error, isSubmitting, onClose, onDelete, onEdit, onMov
   const nextStatus = getNextStatus(task.status);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-background/40 p-4 backdrop-blur-sm">
-      <section className="max-h-[calc(100vh-2rem)] w-full max-w-3xl overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest shadow-2xl">
+    <div className="dialog-overlay fixed inset-0 z-50 flex items-center justify-center bg-on-background/45 p-4 backdrop-blur-md">
+      <section className="dialog-panel max-h-[calc(100vh-2rem)] w-full max-w-3xl overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest">
         <header className="sticky top-0 z-10 flex items-start justify-between border-b border-outline-variant bg-surface-container-lowest/95 px-6 py-5 backdrop-blur-sm">
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2">

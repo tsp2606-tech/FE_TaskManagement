@@ -26,6 +26,7 @@ const TaskFormModal = ({
     dueDate: toDateInputValue(task?.dueDate),
   });
   const [isDueDateFocused, setIsDueDateFocused] = useState(false);
+  const [titleError, setTitleError] = useState("");
 
   const shouldUseDateInput = isDueDateFocused || Boolean(formData.dueDate);
 
@@ -34,10 +35,20 @@ const TaskFormModal = ({
       ...current,
       [field]: value,
     }));
+
+    if (field === "title" && value.trim()) {
+      setTitleError("");
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!formData.title.trim()) {
+      setTitleError("Vui lòng điền vào trường này.");
+      return;
+    }
+
     onSubmit({
       ...formData,
       dueDate: formData.dueDate || null,
@@ -45,8 +56,8 @@ const TaskFormModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-background/40 p-4 backdrop-blur-sm">
-      <section className="max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest shadow-2xl">
+    <div className="dialog-overlay fixed inset-0 z-50 flex items-center justify-center bg-on-background/45 p-4 backdrop-blur-md">
+      <section className="dialog-panel max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest">
         <header className="flex items-center justify-between border-b border-outline-variant px-6 py-4">
           <div>
             <h2 className="text-xl font-bold text-on-surface">
@@ -84,7 +95,7 @@ const TaskFormModal = ({
         )}
 
         {error && (
-          <div className="border-b border-error/25 bg-error-container/30 px-6 py-3 text-sm font-medium text-error">
+          <div className="dialog-alert border-b border-error/25 bg-error-container/40 px-6 py-3 text-sm font-medium text-error">
             {error}
           </div>
         )}
@@ -99,7 +110,11 @@ const TaskFormModal = ({
                 Title <span className="text-error">*</span>
               </label>
               <input
-                className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                className={`w-full rounded-lg border bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:ring-2 ${
+                  titleError
+                    ? "border-error focus:border-error focus:ring-error/20"
+                    : "border-outline-variant focus:border-primary focus:ring-primary/20"
+                }`}
                 id="task-title"
                 placeholder={
                   isEdit ? "Enter task title" : "e.g. Prepare Q3 Report"
@@ -108,6 +123,9 @@ const TaskFormModal = ({
                 type="text"
                 value={formData.title}
               />
+              {titleError && (
+                <p className="mt-1 text-sm text-error">{titleError}</p>
+              )}
             </div>
 
             <div>

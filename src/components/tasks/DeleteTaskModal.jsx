@@ -7,8 +7,8 @@ const DeleteTaskModal = ({ isSubmitting, onClose, onConfirm, task }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-background/40 p-4 backdrop-blur-sm">
-      <section className="w-full max-w-md overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest shadow-2xl">
+    <div className="dialog-overlay fixed inset-0 z-50 flex items-center justify-center bg-on-background/45 p-4 backdrop-blur-md">
+      <section className="dialog-panel w-full max-w-md overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest">
         <header className="flex items-start justify-between px-6 pb-4 pt-6">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-error-container text-error">
