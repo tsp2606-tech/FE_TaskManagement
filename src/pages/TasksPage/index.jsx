@@ -46,6 +46,41 @@ const isTaskNotFoundError = (error) =>
   error?.message?.toLowerCase() === "task not found" ||
   error?.payload?.message?.toLowerCase() === "task not found";
 
+const toDateInputValue = (date) => {
+  if (!date) return null;
+  const parsedDate = new Date(date);
+  if (Number.isNaN(parsedDate.getTime())) return null;
+  return parsedDate.toISOString().slice(0, 10);
+};
+
+const normalizeTaskPayload = (payload) => ({
+  title: payload.title?.trim() || "",
+  description: payload.description?.trim() || "",
+  priority: payload.priority || "medium",
+  dueDate: payload.dueDate || null,
+});
+
+const normalizeExistingTask = (task) => ({
+  title: task?.title?.trim() || "",
+  description: task?.description?.trim() || "",
+  priority: task?.priority || "medium",
+  dueDate: toDateInputValue(task?.dueDate),
+});
+
+const isEmptyCreatePayload = (payload) =>
+  !payload.title && !payload.description && !payload.dueDate && payload.priority === "medium";
+
+const hasTaskChanges = (payload, task) => {
+  const currentTask = normalizeExistingTask(task);
+
+  return (
+    payload.title !== currentTask.title ||
+    payload.description !== currentTask.description ||
+    payload.priority !== currentTask.priority ||
+    payload.dueDate !== currentTask.dueDate
+  );
+};
+
 const TasksPage = () => {
   const [view, setView] = useState("list");
   const [modal, setModal] = useState(null);
@@ -120,25 +155,45 @@ const TasksPage = () => {
 
   const closeModal = () => setModal(null);
 
-  const updateFilters = (nextFilters) => {
+  const updateFilters = useCallback((nextFilters) => {
     setFilters((current) => ({
       ...current,
       ...nextFilters,
     }));
-  };
+  }, []);
 
-  const clearFilters = () => setFilters(initialFilters);
+  const clearFilters = useCallback(() => setFilters(initialFilters), []);
 
   const handleSubmitTask = async (payload) => {
+    const normalizedPayload = normalizeTaskPayload(payload);
+
+    if (modal === "add" && isEmptyCreatePayload(normalizedPayload)) {
+      closeModal();
+      showToast("error", "Chưa nhập gì cả.");
+      return;
+    }
+
+    if (!normalizedPayload.title) {
+      closeModal();
+      showToast("error", "Vui lòng nhập tiêu đề task.");
+      return;
+    }
+
+    if (modal === "edit" && selectedTask?._id && !hasTaskChanges(normalizedPayload, selectedTask)) {
+      closeModal();
+      showToast("success", "Không có thay đổi.");
+      return;
+    }
+
     setActionError("");
     setActionLoading(true);
 
     try {
       if (modal === "edit" && selectedTask?._id) {
-        await updateTask(selectedTask._id, payload);
+        await updateTask(selectedTask._id, normalizedPayload);
         showToast("success", "Task updated successfully.");
       } else {
-        await createTask(payload);
+        await createTask(normalizedPayload);
         setFilters((current) => ({ ...current, page: 1 }));
         showToast("success", "Task created successfully.");
       }

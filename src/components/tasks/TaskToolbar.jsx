@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react";
 import { LayoutGrid, List, Search } from "lucide-react";
 
 const TaskToolbar = ({ filters, onFilterChange, onViewChange, view }) => {
+  const [searchValue, setSearchValue] = useState(filters.search || "");
+
+  useEffect(() => {
+    setSearchValue(filters.search || "");
+  }, [filters.search]);
+
+  useEffect(() => {
+    if (searchValue === filters.search) return undefined;
+
+    const timer = window.setTimeout(() => {
+      onFilterChange({ search: searchValue, page: 1 });
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [filters.search, onFilterChange, searchValue]);
+
   return (
     <section className="rounded-lg border border-outline-variant bg-surface-container-lowest p-4">
       <div className="flex flex-col justify-between gap-4 xl:flex-row xl:items-center">
@@ -9,10 +26,10 @@ const TaskToolbar = ({ filters, onFilterChange, onViewChange, view }) => {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-outline" />
             <input
               className="w-full rounded-md border border-outline-variant bg-surface py-2 pl-9 pr-3 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-              onChange={(event) => onFilterChange({ search: event.target.value, page: 1 })}
+              onChange={(event) => setSearchValue(event.target.value)}
               placeholder="Search tasks..."
               type="text"
-              value={filters.search}
+              value={searchValue}
             />
           </label>
 

@@ -10,7 +10,14 @@ const toDateInputValue = (date) => {
   return parsedDate.toISOString().slice(0, 10);
 };
 
-const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, task }) => {
+const TaskFormModal = ({
+  error,
+  isSubmitting,
+  mode = "add",
+  onClose,
+  onSubmit,
+  task,
+}) => {
   const isEdit = mode === "edit";
   const [formData, setFormData] = useState({
     title: isEdit ? task?.title || "" : "",
@@ -18,6 +25,9 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
     priority: task?.priority || "medium",
     dueDate: toDateInputValue(task?.dueDate),
   });
+  const [isDueDateFocused, setIsDueDateFocused] = useState(false);
+
+  const shouldUseDateInput = isDueDateFocused || Boolean(formData.dueDate);
 
   const handleChange = (field, value) => {
     setFormData((current) => ({
@@ -43,7 +53,9 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
               {isEdit ? "Edit Task" : "Add Task"}
             </h2>
             <p className="mt-1 text-sm text-on-surface-variant">
-              {isEdit ? "Update task details without changing created date." : "Create a new task for the workflow."}
+              {isEdit
+                ? "Update task details without changing created date."
+                : "Create a new task for the workflow."}
             </p>
           </div>
           <button
@@ -59,8 +71,12 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
           <div className="border-b border-outline-variant bg-surface px-6 py-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase text-on-surface-variant">Current Status</p>
-                <p className="text-sm text-on-surface-variant">Status changes use the dedicated workflow action.</p>
+                <p className="text-xs font-semibold uppercase text-on-surface-variant">
+                  Current Status
+                </p>
+                <p className="text-sm text-on-surface-variant">
+                  Status changes use the dedicated workflow action.
+                </p>
               </div>
               <TaskBadge type="status" value={task.status} />
             </div>
@@ -76,28 +92,37 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
         <div className="max-h-[62vh] overflow-y-auto p-6">
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
-              <label className="mb-1 block text-sm font-medium text-on-surface" htmlFor="task-title">
+              <label
+                className="mb-1 block text-sm font-medium text-on-surface"
+                htmlFor="task-title"
+              >
                 Title <span className="text-error">*</span>
               </label>
               <input
                 className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 id="task-title"
-                placeholder={isEdit ? "Enter task title" : "e.g. Prepare Q3 Report"}
+                placeholder={
+                  isEdit ? "Enter task title" : "e.g. Prepare Q3 Report"
+                }
                 onChange={(event) => handleChange("title", event.target.value)}
-                required
                 type="text"
                 value={formData.title}
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-on-surface" htmlFor="task-description">
+              <label
+                className="mb-1 block text-sm font-medium text-on-surface"
+                htmlFor="task-description"
+              >
                 Description
               </label>
               <textarea
                 className="min-h-28 w-full resize-none rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 id="task-description"
-                onChange={(event) => handleChange("description", event.target.value)}
+                onChange={(event) =>
+                  handleChange("description", event.target.value)
+                }
                 placeholder="Add details or context..."
                 value={formData.description}
               />
@@ -105,13 +130,18 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm font-medium text-on-surface" htmlFor="task-priority">
+                <label
+                  className="mb-1 block text-sm font-medium text-on-surface"
+                  htmlFor="task-priority"
+                >
                   Priority
                 </label>
                 <select
                   className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                   id="task-priority"
-                  onChange={(event) => handleChange("priority", event.target.value)}
+                  onChange={(event) =>
+                    handleChange("priority", event.target.value)
+                  }
                   value={formData.priority}
                 >
                   <option value="low">Low</option>
@@ -121,14 +151,22 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-on-surface" htmlFor="task-due-date">
+                <label
+                  className="mb-1 block text-sm font-medium text-on-surface"
+                  htmlFor="task-due-date"
+                >
                   Due Date
                 </label>
                 <input
                   className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                   id="task-due-date"
-                  onChange={(event) => handleChange("dueDate", event.target.value)}
-                  type="date"
+                  onBlur={() => setIsDueDateFocused(false)}
+                  onChange={(event) =>
+                    handleChange("dueDate", event.target.value)
+                  }
+                  onFocus={() => setIsDueDateFocused(true)}
+                  placeholder="Today"
+                  type={shouldUseDateInput ? "date" : "text"}
                   value={formData.dueDate}
                 />
               </div>
@@ -143,7 +181,9 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
               <p>Last updated: {formatDate(task.updatedAt)} 02:45 PM</p>
             </div>
           ) : (
-            <span className="text-sm text-on-surface-variant">Created and updated dates are handled by the API.</span>
+            <span className="text-sm text-on-surface-variant">
+              Created and updated dates are handled by the API.
+            </span>
           )}
           <div className="flex gap-3">
             <button
@@ -159,7 +199,11 @@ const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, t
               onClick={handleSubmit}
               type="button"
             >
-              {isSubmitting ? "Saving..." : isEdit ? "Save Changes" : "Create Task"}
+              {isSubmitting
+                ? "Saving..."
+                : isEdit
+                  ? "Save Changes"
+                  : "Create Task"}
             </button>
           </div>
         </footer>
