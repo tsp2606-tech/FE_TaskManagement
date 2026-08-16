@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Bell,
-  CalendarDays,
   ClipboardList,
-  LayoutDashboard,
   Menu,
   Plus,
   Settings,
@@ -32,10 +30,7 @@ import {
 } from "../../services/api/apiTask";
 
 const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard },
   { label: "Tasks", icon: ClipboardList, active: true },
-  { label: "Calendar", icon: CalendarDays },
-  { label: "Settings", icon: Settings },
 ];
 
 const initialFilters = {
@@ -262,9 +257,6 @@ const TasksPage = () => {
             >
               <Settings className="h-5 w-5" />
             </button>
-            <div className="ml-2 flex h-9 w-9 items-center justify-center rounded-full border border-outline-variant bg-surface-variant text-sm font-bold text-on-surface">
-              TF
-            </div>
           </div>
         </header>
 
