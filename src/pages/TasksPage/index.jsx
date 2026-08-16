@@ -29,9 +29,7 @@ import {
   updateTaskStatus,
 } from "../../services/api/apiTask";
 
-const navItems = [
-  { label: "Tasks", icon: ClipboardList, active: true },
-];
+const navItems = [{ label: "Tasks", icon: ClipboardList, active: true }];
 
 const initialFilters = {
   limit: 10,
@@ -42,6 +40,11 @@ const initialFilters = {
   sortOrder: "desc",
   status: "",
 };
+
+const isTaskNotFoundError = (error) =>
+  error?.status === 404 ||
+  error?.message?.toLowerCase() === "task not found" ||
+  error?.payload?.message?.toLowerCase() === "task not found";
 
 const TasksPage = () => {
   const [view, setView] = useState("list");
@@ -63,7 +66,7 @@ const TasksPage = () => {
 
   const hasFilters = useMemo(
     () => Boolean(filters.search || filters.status || filters.priority),
-    [filters.priority, filters.search, filters.status]
+    [filters.priority, filters.search, filters.status],
   );
 
   const showToast = (type, message) => {
@@ -84,10 +87,12 @@ const TasksPage = () => {
           page: filters.page,
           total: nextTasks.length,
           totalPages: 1,
-        }
+        },
       );
       setSelectedTask((current) =>
-        current ? nextTasks.find((task) => task._id === current._id) || current : current
+        current
+          ? nextTasks.find((task) => task._id === current._id) || current
+          : current,
       );
     } catch (requestError) {
       setError(requestError.message || "Unable to load tasks.");
@@ -141,6 +146,13 @@ const TasksPage = () => {
       closeModal();
       await fetchTasks();
     } catch (requestError) {
+      if (isTaskNotFoundError(requestError)) {
+        closeModal();
+        showToast("error", "Không tìm thấy task.");
+        await fetchTasks();
+        return;
+      }
+
       setActionError(requestError.message || "Unable to save task.");
       showToast("error", requestError.message || "Unable to save task.");
     } finally {
@@ -151,17 +163,23 @@ const TasksPage = () => {
   const handleDeleteTask = async () => {
     if (!selectedTask?._id) return;
 
+    const taskId = selectedTask._id;
     setActionError("");
     setActionLoading(true);
+    closeModal();
 
     try {
-      await deleteTask(selectedTask._id);
-      closeModal();
+      await deleteTask(taskId);
       showToast("success", "Task deleted successfully.");
       await fetchTasks();
     } catch (requestError) {
-      setActionError(requestError.message || "Unable to delete task.");
-      showToast("error", requestError.message || "Unable to delete task.");
+      showToast(
+        "error",
+        isTaskNotFoundError(requestError)
+          ? "Không tìm thấy task."
+          : requestError.message || "Không thể xóa task.",
+      );
+      await fetchTasks();
     } finally {
       setActionLoading(false);
     }
@@ -179,10 +197,12 @@ const TasksPage = () => {
       const updatedTask = result.data;
       setTasks((currentTasks) =>
         currentTasks.map((currentTask) =>
-          currentTask._id === updatedTask._id ? updatedTask : currentTask
-        )
+          currentTask._id === updatedTask._id ? updatedTask : currentTask,
+        ),
       );
-      setSelectedTask((current) => (current?._id === updatedTask._id ? updatedTask : current));
+      setSelectedTask((current) =>
+        current?._id === updatedTask._id ? updatedTask : current,
+      );
       showToast("success", "Task status updated successfully.");
     } catch (requestError) {
       setActionError(requestError.message || "Unable to update status.");
@@ -235,11 +255,16 @@ const TasksPage = () => {
       <div className="flex min-h-screen flex-col md:ml-[260px]">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-outline-variant bg-surface-container-lowest px-4 md:px-6">
           <div className="flex items-center gap-3">
-            <button className="rounded-md p-2 text-on-surface md:hidden" type="button">
+            <button
+              className="rounded-md p-2 text-on-surface md:hidden"
+              type="button"
+            >
               <Menu className="h-5 w-5" />
             </button>
             <div className="hidden md:block">
-              <p className="text-sm font-semibold text-primary">Tasks workspace</p>
+              <p className="text-sm font-semibold text-primary">
+                Tasks workspace
+              </p>
             </div>
           </div>
 
@@ -294,7 +319,9 @@ const TasksPage = () => {
               ) : tasks.length === 0 ? (
                 <TaskEmptyState
                   filtered={hasFilters}
-                  onAction={hasFilters ? clearFilters : () => openModal("add", null)}
+                  onAction={
+                    hasFilters ? clearFilters : () => openModal("add", null)
+                  }
                 />
               ) : view === "list" ? (
                 <TaskTable
@@ -344,7 +371,6 @@ const TasksPage = () => {
       )}
       {modal === "delete" && selectedTask && (
         <DeleteTaskModal
-          error={actionError}
           isSubmitting={actionLoading}
           onClose={closeModal}
           onConfirm={handleDeleteTask}

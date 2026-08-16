@@ -1,6 +1,11 @@
 import { Trash2, TriangleAlert, X } from "lucide-react";
 
-const DeleteTaskModal = ({ error, isSubmitting, onClose, onConfirm, task }) => {
+const DeleteTaskModal = ({ isSubmitting, onClose, onConfirm, task }) => {
+  const handleConfirm = () => {
+    onClose();
+    onConfirm();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-background/40 p-4 backdrop-blur-sm">
       <section className="w-full max-w-md overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest shadow-2xl">
@@ -26,11 +31,6 @@ const DeleteTaskModal = ({ error, isSubmitting, onClose, onConfirm, task }) => {
             <strong className="font-semibold text-on-surface">"{task.title}"</strong>? This
             action cannot be undone.
           </p>
-          {error && (
-            <p className="mt-4 rounded-lg border border-error/20 bg-error-container/35 p-3 text-sm text-on-error-container">
-              {error}
-            </p>
-          )}
         </div>
 
         <footer className="flex justify-end gap-3 border-t border-outline-variant bg-surface-container-low px-6 py-4">
@@ -44,7 +44,7 @@ const DeleteTaskModal = ({ error, isSubmitting, onClose, onConfirm, task }) => {
           <button
             className="inline-flex items-center gap-2 rounded-lg bg-error px-4 py-2 text-sm font-medium text-on-error shadow-sm transition hover:bg-on-error-container"
             disabled={isSubmitting}
-            onClick={onConfirm}
+            onClick={handleConfirm}
             type="button"
           >
             <Trash2 className="h-4 w-4" />
