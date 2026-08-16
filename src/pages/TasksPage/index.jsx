@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Bell,
   CalendarDays,
@@ -16,8 +16,20 @@ import TaskKanban from "../../components/tasks/TaskKanban";
 import TaskStats from "../../components/tasks/TaskStats";
 import TaskTable from "../../components/tasks/TaskTable";
 import TaskToolbar from "../../components/tasks/TaskToolbar";
-import { ToastStack } from "../../components/tasks/TaskStates";
-import { mockTasks } from "../../components/tasks/taskData";
+import {
+  TaskEmptyState,
+  TaskErrorBanner,
+  TaskLoadingState,
+  ToastStack,
+} from "../../components/tasks/TaskStates";
+import { getNextStatus } from "../../components/tasks/taskData";
+import {
+  createTask,
+  deleteTask,
+  getTasks,
+  updateTask,
+  updateTaskStatus,
+} from "../../services/api/apiTask";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard },
@@ -26,17 +38,164 @@ const navItems = [
   { label: "Settings", icon: Settings },
 ];
 
+const initialFilters = {
+  limit: 10,
+  page: 1,
+  priority: "",
+  search: "",
+  sortBy: "createdAt",
+  sortOrder: "desc",
+  status: "",
+};
+
 const TasksPage = () => {
   const [view, setView] = useState("list");
   const [modal, setModal] = useState(null);
-  const [selectedTask, setSelectedTask] = useState(mockTasks[0]);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [filters, setFilters] = useState(initialFilters);
+  const [pagination, setPagination] = useState({
+    limit: initialFilters.limit,
+    page: initialFilters.page,
+    total: 0,
+    totalPages: 1,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [actionError, setActionError] = useState("");
+  const [toast, setToast] = useState(null);
+
+  const hasFilters = useMemo(
+    () => Boolean(filters.search || filters.status || filters.priority),
+    [filters.priority, filters.search, filters.status]
+  );
+
+  const showToast = (type, message) => {
+    setToast({ type, message });
+  };
+
+  const fetchTasks = useCallback(async () => {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const result = await getTasks(filters);
+      const nextTasks = result.data || [];
+      setTasks(nextTasks);
+      setPagination(
+        result.meta?.pagination || {
+          limit: filters.limit,
+          page: filters.page,
+          total: nextTasks.length,
+          totalPages: 1,
+        }
+      );
+      setSelectedTask((current) =>
+        current ? nextTasks.find((task) => task._id === current._id) || current : current
+      );
+    } catch (requestError) {
+      setError(requestError.message || "Unable to load tasks.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  useEffect(() => {
+    if (!toast) return undefined;
+
+    const timer = window.setTimeout(() => setToast(null), 2800);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
 
   const openModal = (modalName, task = selectedTask) => {
     setSelectedTask(task);
+    setActionError("");
     setModal(modalName);
   };
 
   const closeModal = () => setModal(null);
+
+  const updateFilters = (nextFilters) => {
+    setFilters((current) => ({
+      ...current,
+      ...nextFilters,
+    }));
+  };
+
+  const clearFilters = () => setFilters(initialFilters);
+
+  const handleSubmitTask = async (payload) => {
+    setActionError("");
+    setActionLoading(true);
+
+    try {
+      if (modal === "edit" && selectedTask?._id) {
+        await updateTask(selectedTask._id, payload);
+        showToast("success", "Task updated successfully.");
+      } else {
+        await createTask(payload);
+        setFilters((current) => ({ ...current, page: 1 }));
+        showToast("success", "Task created successfully.");
+      }
+
+      closeModal();
+      await fetchTasks();
+    } catch (requestError) {
+      setActionError(requestError.message || "Unable to save task.");
+      showToast("error", requestError.message || "Unable to save task.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDeleteTask = async () => {
+    if (!selectedTask?._id) return;
+
+    setActionError("");
+    setActionLoading(true);
+
+    try {
+      await deleteTask(selectedTask._id);
+      closeModal();
+      showToast("success", "Task deleted successfully.");
+      await fetchTasks();
+    } catch (requestError) {
+      setActionError(requestError.message || "Unable to delete task.");
+      showToast("error", requestError.message || "Unable to delete task.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleMoveTask = async (task) => {
+    const nextStatus = getNextStatus(task.status);
+    if (!nextStatus) return;
+
+    setActionError("");
+    setActionLoading(true);
+
+    try {
+      const result = await updateTaskStatus(task._id, nextStatus);
+      const updatedTask = result.data;
+      setTasks((currentTasks) =>
+        currentTasks.map((currentTask) =>
+          currentTask._id === updatedTask._id ? updatedTask : currentTask
+        )
+      );
+      setSelectedTask((current) => (current?._id === updatedTask._id ? updatedTask : current));
+      showToast("success", "Task status updated successfully.");
+    } catch (requestError) {
+      setActionError(requestError.message || "Unable to update status.");
+      showToast("error", requestError.message || "Unable to update status.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-on-background">
@@ -70,7 +229,7 @@ const TasksPage = () => {
 
         <button
           className="mt-auto inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-on-primary transition hover:bg-primary-container"
-          onClick={() => openModal("add", mockTasks[0])}
+          onClick={() => openModal("add", null)}
           type="button"
         >
           <Plus className="h-4 w-4" />
@@ -119,7 +278,7 @@ const TasksPage = () => {
             </div>
             <button
               className="inline-flex w-fit items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition hover:bg-primary-container"
-              onClick={() => openModal("add", mockTasks[0])}
+              onClick={() => openModal("add", null)}
               type="button"
             >
               <Plus className="h-4 w-4" />
@@ -127,37 +286,87 @@ const TasksPage = () => {
             </button>
           </section>
 
-          <TaskStats tasks={mockTasks} />
-          <TaskToolbar onViewChange={setView} view={view} />
-
-          {view === "list" ? (
-            <TaskTable
-              onDelete={(task) => openModal("delete", task)}
-              onEdit={(task) => openModal("edit", task)}
-              onMove={(task) => openModal("details", task)}
-              onView={(task) => openModal("details", task)}
-              tasks={mockTasks}
-            />
+          {isLoading ? (
+            <TaskLoadingState />
           ) : (
-            <TaskKanban
-              onMove={(task) => openModal("details", task)}
-              onView={(task) => openModal("details", task)}
-              tasks={mockTasks}
-            />
+            <>
+              <TaskStats tasks={tasks} />
+              <TaskToolbar
+                filters={filters}
+                onFilterChange={updateFilters}
+                onViewChange={setView}
+                view={view}
+              />
+              {error ? (
+                <TaskErrorBanner message={error} onRetry={fetchTasks} />
+              ) : tasks.length === 0 ? (
+                <TaskEmptyState
+                  filtered={hasFilters}
+                  onAction={hasFilters ? clearFilters : () => openModal("add", null)}
+                />
+              ) : view === "list" ? (
+                <TaskTable
+                  filters={filters}
+                  onDelete={(task) => openModal("delete", task)}
+                  onEdit={(task) => openModal("edit", task)}
+                  onLimitChange={(limit) => updateFilters({ limit, page: 1 })}
+                  onMove={handleMoveTask}
+                  onPageChange={(page) => updateFilters({ page })}
+                  onView={(task) => openModal("details", task)}
+                  pagination={pagination}
+                  tasks={tasks}
+                />
+              ) : (
+                <TaskKanban
+                  onMove={handleMoveTask}
+                  onView={(task) => openModal("details", task)}
+                  tasks={tasks}
+                />
+              )}
+            </>
           )}
         </main>
       </div>
 
-      <ToastStack />
+      <ToastStack toast={toast} />
 
-      {modal === "add" && <TaskFormModal mode="add" onClose={closeModal} task={selectedTask} />}
-      {modal === "edit" && <TaskFormModal mode="edit" onClose={closeModal} task={selectedTask} />}
-      {modal === "delete" && <DeleteTaskModal onClose={closeModal} task={selectedTask} />}
-      {modal === "details" && (
+      {modal === "add" && (
+        <TaskFormModal
+          error={actionError}
+          isSubmitting={actionLoading}
+          mode="add"
+          onClose={closeModal}
+          onSubmit={handleSubmitTask}
+          task={selectedTask}
+        />
+      )}
+      {modal === "edit" && selectedTask && (
+        <TaskFormModal
+          error={actionError}
+          isSubmitting={actionLoading}
+          mode="edit"
+          onClose={closeModal}
+          onSubmit={handleSubmitTask}
+          task={selectedTask}
+        />
+      )}
+      {modal === "delete" && selectedTask && (
+        <DeleteTaskModal
+          error={actionError}
+          isSubmitting={actionLoading}
+          onClose={closeModal}
+          onConfirm={handleDeleteTask}
+          task={selectedTask}
+        />
+      )}
+      {modal === "details" && selectedTask && (
         <TaskDetailModal
+          error={actionError}
+          isSubmitting={actionLoading}
           onClose={closeModal}
           onDelete={(task) => openModal("delete", task)}
           onEdit={(task) => openModal("edit", task)}
+          onMove={handleMoveTask}
           task={selectedTask}
         />
       )}

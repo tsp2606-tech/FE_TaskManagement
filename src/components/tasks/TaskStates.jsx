@@ -30,7 +30,7 @@ export const TaskLoadingState = () => (
   </section>
 );
 
-export const TaskEmptyState = ({ filtered = false }) => (
+export const TaskEmptyState = ({ filtered = false, onAction }) => (
   <section className="flex min-h-[360px] flex-col items-center justify-center rounded-lg border border-dashed border-outline-variant bg-surface-container-lowest p-10 text-center">
     <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-surface-container text-outline">
       {filtered ? <SearchX className="h-8 w-8" /> : <ClipboardList className="h-8 w-8" />}
@@ -43,24 +43,28 @@ export const TaskEmptyState = ({ filtered = false }) => (
         ? "Try changing the status, priority, or search keyword."
         : "Create your first task to start tracking progress."}
     </p>
-    <button className="mt-6 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-on-primary" type="button">
+    <button
+      className="mt-6 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-on-primary"
+      onClick={onAction}
+      type="button"
+    >
       {filtered ? "Clear Filters" : "Add Task"}
     </button>
   </section>
 );
 
-export const TaskErrorBanner = () => (
+export const TaskErrorBanner = ({ message, onRetry }) => (
   <section className="flex flex-col gap-4 rounded-lg border border-error/20 bg-error-container p-4 sm:flex-row sm:items-start">
     <TriangleAlert className="h-5 w-5 shrink-0 text-error" />
     <div className="flex-1">
       <h3 className="font-semibold text-on-error-container">Unable to load tasks.</h3>
       <p className="mt-1 text-sm text-on-error-container/80">
-        Check your connection or try again. This covers invalid requests, not found
-        responses, network errors, and server errors.
+        {message || "Check your connection or try again."}
       </p>
     </div>
     <button
       className="inline-flex items-center justify-center gap-2 rounded-lg border border-error/20 bg-surface-container-lowest px-4 py-2 text-sm font-semibold text-error transition hover:bg-error/5"
+      onClick={onRetry}
       type="button"
     >
       <RefreshCcw className="h-4 w-4" />
@@ -69,13 +73,19 @@ export const TaskErrorBanner = () => (
   </section>
 );
 
-export const ToastStack = () => (
-  <div className="fixed bottom-6 right-6 z-40 hidden flex-col gap-3 md:flex">
-    <div className="w-80 rounded-lg border-l-4 border-status-done-text bg-inverse-surface px-4 py-3 text-inverse-on-surface shadow-lg">
-      <p className="text-sm font-medium">Task updated successfully.</p>
+export const ToastStack = ({ toast }) => {
+  if (!toast) return null;
+
+  const tone =
+    toast.type === "error"
+      ? "border-error bg-error-container text-on-error-container"
+      : "border-status-done-text bg-inverse-surface text-inverse-on-surface";
+
+  return (
+    <div className="fixed bottom-6 right-6 z-40 hidden flex-col gap-3 md:flex">
+      <div className={`w-80 rounded-lg border-l-4 px-4 py-3 shadow-lg ${tone}`}>
+        <p className="text-sm font-medium">{toast.message}</p>
+      </div>
     </div>
-    <div className="w-80 rounded-lg border-l-4 border-error bg-error-container px-4 py-3 text-on-error-container shadow-lg">
-      <p className="text-sm font-medium">Invalid status transition.</p>
-    </div>
-  </div>
-);
+  );
+};

@@ -2,7 +2,24 @@ import { ArrowRight, CheckCheck, Eye, Pencil, Trash2 } from "lucide-react";
 import TaskBadge from "./TaskBadge";
 import { formatDate, getNextStatus, isOverdue, statusLabels } from "./taskData";
 
-const TaskTable = ({ onDelete, onEdit, onMove, onView, tasks }) => {
+const TaskTable = ({
+  filters,
+  onDelete,
+  onEdit,
+  onLimitChange,
+  onMove,
+  onPageChange,
+  onView,
+  pagination,
+  tasks,
+}) => {
+  const page = pagination?.page || 1;
+  const limit = pagination?.limit || filters.limit;
+  const total = pagination?.total || 0;
+  const totalPages = pagination?.totalPages || 1;
+  const from = total === 0 ? 0 : (page - 1) * limit + 1;
+  const to = Math.min(page * limit, total);
+
   return (
     <section className="overflow-hidden rounded-lg border border-outline-variant bg-surface-container-lowest">
       <div className="overflow-x-auto">
@@ -106,26 +123,39 @@ const TaskTable = ({ onDelete, onEdit, onMove, onView, tasks }) => {
       <footer className="flex flex-col items-center justify-between gap-4 border-t border-outline-variant bg-surface px-4 py-3 text-sm text-on-surface-variant sm:flex-row">
         <div className="flex items-center gap-2">
           <span>Rows per page:</span>
-          <select className="rounded-md border border-outline-variant bg-surface-container-lowest px-2 py-1 text-on-surface">
-            <option>10</option>
-            <option>5</option>
-            <option>20</option>
-            <option>50</option>
+          <select
+            className="rounded-md border border-outline-variant bg-surface-container-lowest px-2 py-1 text-on-surface"
+            onChange={(event) => onLimitChange(Number(event.target.value))}
+            value={limit}
+          >
+            <option value={10}>10</option>
+            <option value={5}>5</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
           </select>
         </div>
         <div className="flex items-center gap-4">
-          <span>Showing 1-5 of 42 tasks</span>
+          <span>
+            Showing {from}-{to} of {total} tasks
+          </span>
           <div className="flex items-center gap-1">
-            <button className="rounded px-2 py-1 opacity-50" disabled type="button">
+            <button
+              className="rounded px-2 py-1 disabled:opacity-50 enabled:hover:bg-surface-container-low"
+              disabled={page <= 1}
+              onClick={() => onPageChange(page - 1)}
+              type="button"
+            >
               Previous
             </button>
             <button className="flex h-8 w-8 items-center justify-center rounded bg-primary text-on-primary" type="button">
-              1
+              {page}
             </button>
-            <button className="flex h-8 w-8 items-center justify-center rounded hover:bg-surface-container-low" type="button">
-              2
-            </button>
-            <button className="rounded px-2 py-1 hover:bg-surface-container-low" type="button">
+            <button
+              className="rounded px-2 py-1 disabled:opacity-50 enabled:hover:bg-surface-container-low"
+              disabled={page >= totalPages}
+              onClick={() => onPageChange(page + 1)}
+              type="button"
+            >
               Next
             </button>
           </div>

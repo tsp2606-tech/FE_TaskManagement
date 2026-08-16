@@ -77,12 +77,18 @@ export const getNextStatus = (status) => {
   return null;
 };
 
-export const formatDate = (date) =>
-  new Intl.DateTimeFormat("en", {
+export const formatDate = (date) => {
+  if (!date) return "No due date";
+
+  const parsedDate = new Date(date);
+  if (Number.isNaN(parsedDate.getTime())) return "Invalid date";
+
+  return new Intl.DateTimeFormat("en", {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  }).format(new Date(date));
+  }).format(parsedDate);
+};
 
 export const isOverdue = (date, status) =>
-  status !== "done" && new Date(date) < new Date("2026-08-19T00:00:00.000Z");
+  Boolean(date) && status !== "done" && new Date(date) < new Date();

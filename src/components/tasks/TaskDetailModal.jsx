@@ -2,7 +2,7 @@ import { ArrowRight, CalendarDays, FileText, Pencil, Route, Trash2, X } from "lu
 import TaskBadge from "./TaskBadge";
 import { formatDate, getNextStatus, statusLabels, taskStatuses } from "./taskData";
 
-const TaskDetailModal = ({ onClose, onDelete, onEdit, task }) => {
+const TaskDetailModal = ({ error, isSubmitting, onClose, onDelete, onEdit, onMove, task }) => {
   const currentIndex = taskStatuses.indexOf(task.status);
   const nextStatus = getNextStatus(task.status);
 
@@ -97,9 +97,11 @@ const TaskDetailModal = ({ onClose, onDelete, onEdit, task }) => {
             </div>
           </section>
 
-          <div className="rounded-lg border border-error/30 bg-error-container/35 p-4 text-sm text-on-error-container">
-            Invalid status transition. Tasks must move from Todo to Doing to Done.
-          </div>
+          {error && (
+            <div className="rounded-lg border border-error/30 bg-error-container/35 p-4 text-sm text-on-error-container">
+              {error}
+            </div>
+          )}
         </div>
 
         <footer className="flex flex-col-reverse justify-between gap-3 border-t border-outline-variant bg-surface px-6 py-4 sm:flex-row">
@@ -127,10 +129,11 @@ const TaskDetailModal = ({ onClose, onDelete, onEdit, task }) => {
                 ? "bg-primary text-on-primary hover:bg-primary-container"
                 : "cursor-not-allowed bg-surface-container-high text-outline"
             }`}
-            disabled={!nextStatus}
+            disabled={!nextStatus || isSubmitting}
+            onClick={() => onMove(task)}
             type="button"
           >
-            {nextStatus ? `Move to ${statusLabels[nextStatus]}` : "Already done"}
+            {isSubmitting ? "Moving..." : nextStatus ? `Move to ${statusLabels[nextStatus]}` : "Already done"}
             {nextStatus && <ArrowRight className="h-4 w-4" />}
           </button>
         </footer>

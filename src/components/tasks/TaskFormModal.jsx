@@ -1,9 +1,38 @@
+import { useState } from "react";
 import { X } from "lucide-react";
 import TaskBadge from "./TaskBadge";
 import { formatDate } from "./taskData";
 
-const TaskFormModal = ({ mode = "add", onClose, task }) => {
+const toDateInputValue = (date) => {
+  if (!date) return "";
+  const parsedDate = new Date(date);
+  if (Number.isNaN(parsedDate.getTime())) return "";
+  return parsedDate.toISOString().slice(0, 10);
+};
+
+const TaskFormModal = ({ error, isSubmitting, mode = "add", onClose, onSubmit, task }) => {
   const isEdit = mode === "edit";
+  const [formData, setFormData] = useState({
+    title: isEdit ? task?.title || "" : "",
+    description: task?.description || "",
+    priority: task?.priority || "medium",
+    dueDate: toDateInputValue(task?.dueDate),
+  });
+
+  const handleChange = (field, value) => {
+    setFormData((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSubmit({
+      ...formData,
+      dueDate: formData.dueDate || null,
+    });
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-background/40 p-4 backdrop-blur-sm">
@@ -38,31 +67,27 @@ const TaskFormModal = ({ mode = "add", onClose, task }) => {
           </div>
         )}
 
-        {isEdit && (
+        {error && (
           <div className="border-b border-error/25 bg-error-container/30 px-6 py-3 text-sm font-medium text-error">
-            Unable to update task. Please try again.
+            {error}
           </div>
         )}
 
         <div className="max-h-[62vh] overflow-y-auto p-6">
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
-              <label className={`mb-1 block text-sm font-medium ${isEdit ? "text-error" : "text-on-surface"}`} htmlFor="task-title">
+              <label className="mb-1 block text-sm font-medium text-on-surface" htmlFor="task-title">
                 Title <span className="text-error">*</span>
               </label>
               <input
-                className={`w-full rounded-lg border bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:ring-2 ${
-                  isEdit
-                    ? "border-error focus:border-error focus:ring-error/20"
-                    : "border-outline-variant focus:border-primary focus:ring-primary/20"
-                }`}
-                defaultValue={isEdit ? "" : ""}
+                className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 id="task-title"
                 placeholder={isEdit ? "Enter task title" : "e.g. Prepare Q3 Report"}
+                onChange={(event) => handleChange("title", event.target.value)}
                 required
                 type="text"
+                value={formData.title}
               />
-              {isEdit && <p className="mt-1 text-sm text-error">Task title is required.</p>}
             </div>
 
             <div>
@@ -71,9 +96,10 @@ const TaskFormModal = ({ mode = "add", onClose, task }) => {
               </label>
               <textarea
                 className="min-h-28 w-full resize-none rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-                defaultValue={task?.description ?? ""}
                 id="task-description"
+                onChange={(event) => handleChange("description", event.target.value)}
                 placeholder="Add details or context..."
+                value={formData.description}
               />
             </div>
 
@@ -84,8 +110,9 @@ const TaskFormModal = ({ mode = "add", onClose, task }) => {
                 </label>
                 <select
                   className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  defaultValue={task?.priority ?? "medium"}
                   id="task-priority"
+                  onChange={(event) => handleChange("priority", event.target.value)}
+                  value={formData.priority}
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -100,7 +127,9 @@ const TaskFormModal = ({ mode = "add", onClose, task }) => {
                 <input
                   className="w-full rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                   id="task-due-date"
+                  onChange={(event) => handleChange("dueDate", event.target.value)}
                   type="date"
+                  value={formData.dueDate}
                 />
               </div>
             </div>
@@ -126,9 +155,11 @@ const TaskFormModal = ({ mode = "add", onClose, task }) => {
             </button>
             <button
               className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-on-primary shadow-sm transition hover:bg-primary-container sm:flex-none"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
               type="button"
             >
-              {isEdit ? "Save Changes" : "Create Task"}
+              {isSubmitting ? "Saving..." : isEdit ? "Save Changes" : "Create Task"}
             </button>
           </div>
         </footer>
